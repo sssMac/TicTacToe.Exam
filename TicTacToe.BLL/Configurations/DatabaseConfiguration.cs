@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using TicTacToe.DAL.Contexts;
 
-namespace TicTacToe.Server.Configurations
+namespace TicTacToe.BLL.Configurations
 {
     public static class DatabaseConfiguration
     {
@@ -10,7 +12,6 @@ namespace TicTacToe.Server.Configurations
 
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseNpgsql(config["ConnectionStrings:DefaultConnection"]));
-
 
             return services;
         }

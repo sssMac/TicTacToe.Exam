@@ -1,0 +1,9 @@
+build
+node_modules
+.idea
+.git
+.gitignore
+LICENSE
+README.md
+bin
+obj

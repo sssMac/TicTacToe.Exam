@@ -18,7 +18,7 @@ namespace TicTacToe.Server.RabbitMQ
             var factory = new ConnectionFactory
             {
                 HostName = _config["Rabbit:HostName"],
-                Port = int.Parse(_config["Rabbit:Port"]),
+                Port = Convert.ToInt32(_config["Rabbit:Port"]),
 
             };
             var connection = factory.CreateConnection();

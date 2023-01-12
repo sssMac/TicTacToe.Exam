@@ -1,3 +1,4 @@
+using TicTacToe.BLL.Configurations;
 using TicTacToe.Server.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ app.SwaggereConfigure();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.ConfigureSignalR();
 app.CorsConfigure();
 
 app.Run();

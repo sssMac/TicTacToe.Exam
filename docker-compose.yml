@@ -1,0 +1,74 @@
+version: '3.4'
+
+services:
+  tictactoe.server:
+    build: 
+      context: .
+      dockerfile: TicTacToe.Server/Dockerfile
+    ports:
+      - "5225:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgre;Port=5432;Database=TicTacToe.Exam.DB;Username=postgres;Password=russiamedved
+
+      - Rabbit__HostName=rabbitmq
+      - Rabbit__Port=5672
+    depends_on:
+      - postgre
+
+  postgre:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "russiamedved"
+      POSTGRES_DB: "TicTacToe.Exam.DB"
+    ports:
+      - '7000:5432'
+    volumes: 
+      - postgre:/var/lib/postgresql/data
+      - ./postgre/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+  tictactoe.ui:
+    build: 
+      context: tictactoe.web
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - HOST=0.0.0.0
+    depends_on:
+      - tictactoe.server
+    volumes:        
+      - ./tictactoe.web/src:/ui/src
+      - '/ui/node_modules'
+
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    tty: true
+    hostname: rabbitmq
+
+  mqconsumer:
+    build:
+      context: .
+      dockerfile: TicTacToe.Backround/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgre;Port=5432;Database=TicTacToe.Exam.DB;Username=postgres;Password=russiamedved
+
+      - Rabbit__HostName=rabbitmq
+      - Rabbit__Port=5672
+    ports:
+      - "8001:80"
+    restart: always
+    depends_on:
+      - rabbitmq
+
+volumes:
+  postgre:
+    driver: local

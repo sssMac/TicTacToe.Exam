@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.BLL", "TicTacToe.
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "TicTacToe.Web", "TicTacToe.Web\TicTacToe.Web.esproj", "{211E4BC5-AB0F-45B5-B195-B625DCC4F669}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.Backround", "TicTacToe.Backround\TicTacToe.Backround.csproj", "{7DF1DEF5-2537-48BD-AE8A-FA6B8B6891A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{211E4BC5-AB0F-45B5-B195-B625DCC4F669}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{211E4BC5-AB0F-45B5-B195-B625DCC4F669}.Release|Any CPU.Build.0 = Release|Any CPU
 		{211E4BC5-AB0F-45B5-B195-B625DCC4F669}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7DF1DEF5-2537-48BD-AE8A-FA6B8B6891A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DF1DEF5-2537-48BD-AE8A-FA6B8B6891A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DF1DEF5-2537-48BD-AE8A-FA6B8B6891A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DF1DEF5-2537-48BD-AE8A-FA6B8B6891A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

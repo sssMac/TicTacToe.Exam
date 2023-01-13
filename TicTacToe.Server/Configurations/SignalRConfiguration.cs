@@ -7,7 +7,6 @@ namespace TicTacToe.Server.Configurations
         
         public static WebApplication ConfigureSignalR(this WebApplication app)
         {
-
             app.MapHub<GameHub>("/hub");
             return app;
         }

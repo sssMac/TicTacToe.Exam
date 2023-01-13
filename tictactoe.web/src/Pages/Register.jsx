@@ -6,7 +6,7 @@ import "../Styles/Auth.css"
 import Alert from '@mui/material/Alert';
 
 import AuthService from "../Services/auth.service";
-import "./Register.css";
+import "../Styles/Register.css";
 import { withRouter } from '../Common/with-router';
 
 const required = value => {

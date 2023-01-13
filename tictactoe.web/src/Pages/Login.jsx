@@ -61,6 +61,7 @@ class Login extends Component {
         if (this.checkBtn.context._errors.length === 0) {
             AuthService.login(this.state.username, this.state.password).then(
                 () => {
+                    localStorage.setItem("username", this.state.username);
                     this.props.router.navigate("/rooms");
                     window.location.reload();
                 },

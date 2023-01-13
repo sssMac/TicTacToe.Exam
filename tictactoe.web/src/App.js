@@ -4,15 +4,17 @@ import Rooms from "./Pages/Rooms";
 import BasicTable from "./Pages/Rooms";
 
 import { Routes, Route, Link } from "react-router-dom";
-import React, { Component } from "react";
+import React, {Component, useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 
 import AuthService from "../src/Services/auth.service";
+import {HubConnectionBuilder} from "@microsoft/signalr";
 
 function App() {
+
     if (AuthService.getCurrentUser()){
         return (
             <Routes>

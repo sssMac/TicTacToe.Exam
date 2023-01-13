@@ -2,8 +2,10 @@ import React from 'react';
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
+import Join from "../../Components/Room/Join"
 
 import "../../Styles/Room/RoomsTable.css"
+
 
 const Room = (props) => {
     return (
@@ -20,11 +22,12 @@ const Room = (props) => {
                     <TableCell align="left">{room.minRating}</TableCell>
                     <TableCell align="right">
                         <div className="wrap">
-                            <button className="button">Join</button>
+                            <Join id={room.id}/>
+                            {/*<button className="button" onClick={e => goToGame(room.id)}>Join</button>*/}
                         </div>
                     </TableCell>
                 </TableRow>
-            ))}
+            )) }
         </TableBody>
     );
 };

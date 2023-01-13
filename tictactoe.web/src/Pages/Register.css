@@ -1,0 +1,12 @@
+.alert-danger:empty{
+    display: none;
+}
+.success {
+    padding: 10px;
+    border: 2px solid hsl(74deg 73% 51%);
+    border-radius: 4px;
+    background: hsl(84deg 92% 70%);
+}
+.success:empty {
+    display: none;
+}

@@ -33,6 +33,7 @@ const Board = () => {
 
         squares[i] = isX ? 'X' : 'O'
         setSquares(squares)
+        console.log(squares)
         setIsX(!isX)
     }
 

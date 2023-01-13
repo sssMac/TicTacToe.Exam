@@ -2,6 +2,6 @@
 {
     public interface IRabitMQProducer
     {
-        public void SendProductMessage<T>(T message);
+        public Task SendProductMessage<T>(T message);
     }
 }

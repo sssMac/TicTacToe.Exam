@@ -1,6 +1,9 @@
-﻿using RabbitMQ.Client;
+﻿using Newtonsoft.Json;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
+using TicTacToe.BLL.Interfaces;
+using TicTacToe.DAL.Models.Entities;
 
 namespace TicTacToe.Backround.Consumers
 {
@@ -11,11 +14,14 @@ namespace TicTacToe.Backround.Consumers
         private IConnection _connection;
         private IModel _channel;
         private string? _queueName;
-        public RabbitConsumer(IConfiguration config)
+        private IMessageManager _messageMnaager;
+        public RabbitConsumer(IConfiguration config, 
+            IMessageManager messageMnaager)
         {
             _config = config;
-            _factory = new ConnectionFactory() { 
-                HostName = _config["Rabbit:HostName"] ,
+            _factory = new ConnectionFactory()
+            {
+                HostName = _config["Rabbit:HostName"],
                 Port = Convert.ToInt32(_config["Rabbit:Port"]),
             };
             _connection = _factory.CreateConnection();
@@ -31,6 +37,7 @@ namespace TicTacToe.Backround.Consumers
             _channel.QueueBind(queue: _queueName,
                                       exchange: "exam.fanout",
                                       routingKey: string.Empty);
+            _messageMnaager = messageMnaager;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -49,10 +56,11 @@ namespace TicTacToe.Backround.Consumers
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
+                var mesageData = JsonConvert.DeserializeObject<Message>(message);
                 Console.WriteLine(" [x] Received {0}", message);
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
-                    // CRUD
+                    await _messageMnaager.PostMessage(mesageData);
                 });
             };
 

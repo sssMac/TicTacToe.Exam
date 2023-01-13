@@ -13,7 +13,7 @@ namespace TicTacToe.Server.RabbitMQ
             _config = config;
         }
 
-        public void SendProductMessage<T>(T message)
+        public async Task SendProductMessage<T>(T message)
         {
             var factory = new ConnectionFactory
             {

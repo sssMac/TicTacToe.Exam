@@ -7,6 +7,7 @@ using TicTacToe.DAL.Models.Entities;
 using TicTacToe.DAL.Models.View;
 using TicTacToe.Server.Hubs;
 using TicTacToe.BLL.Consts;
+using TicTacToe.Server.RabbitMQ;
 
 namespace TicTacToe.Server.Controllers
 {
@@ -17,13 +18,16 @@ namespace TicTacToe.Server.Controllers
         private readonly IGameManager _gameManager;
         private readonly IHubContext<GameHub> _hubContext;
         private readonly UserManager<User> _userManager;
-        public GameController(IGameManager gameManager, 
-            UserManager<User> userManager, 
-            IHubContext<GameHub> hubContext)
+        private readonly IRabitMQProducer _rabbit;
+        public GameController(IGameManager gameManager,
+            UserManager<User> userManager,
+            IHubContext<GameHub> hubContext,
+            IRabitMQProducer rabbit)
         {
             _gameManager = gameManager;
             _userManager = userManager;
             _hubContext = hubContext;
+            _rabbit = rabbit;
         }
 
         [HttpPost("createroom")]
@@ -64,6 +68,23 @@ namespace TicTacToe.Server.Controllers
             await _hubContext.Clients.Group(groupName).SendAsync("ReceiveStatus", roomId);
 
             return Ok(res);
+        }
+
+        [HttpPost("postmessage")]
+        public async Task<IActionResult> PostMessage([FromForm] PostMessage postMessage, string host)
+        {
+            var message = new Message
+            {
+                MessageId = Guid.NewGuid(),
+                From = postMessage.From,
+                To = "koyash",
+                Text = postMessage.Message,
+                PublishDate = DateTimeOffset.Now.ToUnixTimeMilliseconds()
+            };
+            await _rabbit.SendProductMessage(message);
+            await _hubContext.Clients.Group(host).SendAsync("ReceiveGroupMessage", message);
+
+            return Ok("Message send!");
         }
 
     }

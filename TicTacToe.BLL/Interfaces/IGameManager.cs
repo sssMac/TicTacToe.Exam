@@ -11,10 +11,15 @@ namespace TicTacToe.BLL.Interfaces
     public interface IGameManager
     {
         Task<Room> AddRoom(string hostName, int mingRating);
-        Task<string> GetConnectionId(string userId);
-        Task<string> GetUserId(string connectionId);
+        Task<bool> SetDraw(Guid roomId);
+        Task SetWinner(string winnerName, Guid roomId);
         Task<bool> AddToGroup(string userName, string groupName);
         Task<bool> RemoveFromGroup(string userName, string groupName);
         Task<List<GameGroup>> GetGroups(string userName);
+        Task<OnlineUser> AddOnlineUser(string userName, string connectionId);
+        Task<List<OnlineUser>> GetOnlineUsers();
+        Task<string> GetConnectionId(string userId);
+
+
     }
 }

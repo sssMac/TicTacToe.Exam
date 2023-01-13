@@ -22,7 +22,7 @@ namespace TicTacToe.Server.Configurations
                     options.Password.RequireUppercase = false;
                     options.Password.RequireLowercase = false;
                 })
-                .AddUserStore<ApplicationContext>();
+                .AddEntityFrameworkStores<ApplicationContext>();
 
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

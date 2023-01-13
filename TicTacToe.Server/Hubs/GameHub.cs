@@ -13,19 +13,29 @@ namespace TicTacToe.Server.Hubs
             _gameManager = gameManager;
         }
 
-        public override async Task OnConnectedAsync()
-        {
-
-        }
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            
+            var user = (await _gameManager.GetOnlineUsers()).FirstOrDefault(u => u.ConnectionId == Context.ConnectionId);
+
+            var groups = await _gameManager.GetGroups(Context.ConnectionId);
+
+            foreach (var group in groups)
+            {
+                await _gameManager.RemoveFromGroup(user.UserName, group.Group);
+            }
+        }
+        public async Task LeaveRoom(Guid roomId)
+        {
+            var user = (await _gameManager.GetOnlineUsers()).FirstOrDefault(u => u.ConnectionId == Context.ConnectionId);
+            var group = (await _gameManager.GetGroups(Context.ConnectionId)).FirstOrDefault(g => g.Id == roomId);
+
+            await _gameManager.RemoveFromGroup(user.UserName, group.Group);
+
         }
 
-        public async Task MakeMove(int square, string symbol)
+        public async Task OnlineStatus(string userName)
         {
-            
-            await Clients.All.SendAsync("ReceiveJoinUser", true);
+            await _gameManager.AddOnlineUser(userName, Context.ConnectionId);
 
         }
     }

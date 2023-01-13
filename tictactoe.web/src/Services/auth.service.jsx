@@ -1,17 +1,19 @@
 import axios from "axios";
 
-const API_URL = process.env.SERVER_API_URL
+const API_URL = "https://localhost:7016"
 
 class AuthService {
+
     login(username, password) {
+        console.log(process.env.SERVER_API_URL)
         console.log(username, password)
+        const formData = new FormData();
+        formData.append("userName", username);
+        formData.append("password", password);
         return axios
-            .post( `${process.env.SERVER_API_URL}/api/Auth/BearerToken`, {
-                username,
-                password
-            })
+            .post( API_URL + '/api/Auth/BearerToken', formData)
             .then(response => {
-                if (response.data.accessToken) {
+                if (response.data.token) {
                     localStorage.setItem("user", JSON.stringify(response.data));
                 }
 
@@ -25,10 +27,14 @@ class AuthService {
 
     register(username, password) {
         console.log(username, password)
-        return axios.post(API_URL + "/api/Auth/registration", {
-            username,
-            password
-        });
+        const formData = new FormData();
+        formData.append("userName", username);
+        formData.append("password", password);
+        console.log(formData)
+        return axios.post(API_URL + "/api/Auth/registration", formData)
+            .then((res => {
+                console.log(res)
+            }));
     }
 
     getCurrentUser() {

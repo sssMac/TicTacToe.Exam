@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
+import "../Styles/Auth.css"
 import AuthService from "../Services/auth.service";
 
 import { withRouter } from '../Common/with-router';
@@ -44,6 +44,10 @@ class Login extends Component {
         });
     }
 
+    handleRegister(){
+        this.props.router.navigate("/register");
+    }
+
     handleLogin(e) {
         e.preventDefault();
 
@@ -83,7 +87,7 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="col-md-12">
+            <div className="col-md-12 authform">
                 <div >
 
                     <Form
@@ -143,7 +147,11 @@ class Login extends Component {
                         />
                     </Form>
                 </div>
+                <button className="btn btn-primary btn-block" onClick={e => this.handleRegister()  }>
+                    <span>Don't have account?</span>
+                </button>
             </div>
+
         );
     }
 }

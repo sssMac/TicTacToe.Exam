@@ -10,15 +10,28 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 
+import AuthService from "../src/Services/auth.service";
+
 function App() {
-    return (
-      <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/game" element={<Game />} />
-          <Route path="/rooms" element={<Rooms />} />
-          <Route path="/register" element={<Register />} />
-      </Routes>
-  );
+    if (AuthService.getCurrentUser()){
+        return (
+            <Routes>
+                <Route index path="/" element={<Rooms />} />
+                <Route path="*" element={<Rooms />} />
+                <Route path="/game" element={<Game />} />
+                <Route path="/rooms" element={<Rooms />} />
+            </Routes>
+        )
+    }else{
+        return (
+            <Routes>
+                <Route index path="/" element={<Login />} />
+                <Route path="*" element={<Login />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+            </Routes>
+        )
+    }
 }
 
 export default App;

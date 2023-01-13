@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
+import "../Styles/Auth.css"
 import Alert from '@mui/material/Alert';
 
 import AuthService from "../Services/auth.service";
 import "./Register.css";
+import { withRouter } from '../Common/with-router';
 
 const required = value => {
     if (!value) {
@@ -42,7 +43,7 @@ const vpassword = value => {
 
 
 
-export default class Register extends Component {
+class Register extends Component {
     constructor(props) {
         super(props);
         this.handleRegister = this.handleRegister.bind(this);
@@ -77,6 +78,10 @@ export default class Register extends Component {
         });
     }
 
+    handleLogin(){
+        this.props.router.navigate("/login");
+    }
+
     handleRegister(e) {
         e.preventDefault();
 
@@ -87,7 +92,7 @@ export default class Register extends Component {
 
         this.form.validateAll();
 
-        if (this.state.password == this.state.passwordConfirm){
+        if (this.state.password === this.state.passwordConfirm){
             if (this.checkBtn.context._errors.length === 0) {
                 this.state.errorconfirm = ""
                 AuthService.register(
@@ -96,10 +101,6 @@ export default class Register extends Component {
                 ).then(
                     response => {
                         this.state.accesconfirm = "Registration is successed"
-                        this.setState({
-                            message: response.data.message,
-                            successful: true
-                        });
                         window.location.reload();
                     },
                     error => {
@@ -126,7 +127,7 @@ export default class Register extends Component {
 
     render() {
         return (
-            <div className="col-md-12">
+            <div className="col-md-12 authform">
                 <div >
 
                     <Form
@@ -211,7 +212,11 @@ export default class Register extends Component {
 
                     </Form>
                 </div>
+                <button className="btn btn-primary btn-block" onClick={e => this.handleLogin()  }>
+                    <span>Already have an account?</span>
+                </button>
             </div>
         );
     }
 }
+export default withRouter(Register);

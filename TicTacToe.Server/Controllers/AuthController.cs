@@ -23,7 +23,7 @@ namespace TicTacToe.Server.Controllers
         }
 
         [HttpPost("registration")]
-        public async Task<ActionResult<User>> RegisterUser(RegisterRequest user)
+        public async Task<ActionResult> RegisterUser([FromForm] RegisterRequest user)
         {
             if (!ModelState.IsValid)
             {
@@ -41,7 +41,7 @@ namespace TicTacToe.Server.Controllers
             }
 
             user.Password = null;
-            return Created("", user);
+            return Ok(User);
         }
 
         // GET: api/Auth/username
@@ -64,7 +64,7 @@ namespace TicTacToe.Server.Controllers
 
         // POST: api/Auth/BearerToken
         [HttpPost("BearerToken")]
-        public async Task<ActionResult<AuthenticationResponse>> LoginUser(AuthenticationRequest request)
+        public async Task<ActionResult<AuthenticationResponse>> LoginUser([FromForm]AuthenticationRequest request)
         {
             if (!ModelState.IsValid)
             {

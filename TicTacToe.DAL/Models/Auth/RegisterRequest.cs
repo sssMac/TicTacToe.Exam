@@ -13,7 +13,5 @@ namespace TicTacToe.DAL.Models.Auth
         public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
-        [Required]
-        public string Email { get; set; }
     }
 }

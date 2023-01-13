@@ -12,6 +12,7 @@ var app = builder.Build();
 
 app.SwaggereConfigure();
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.ConfigureSignalR();

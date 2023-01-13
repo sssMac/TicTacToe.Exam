@@ -1,9 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import RoomsTable from "../Components/Room/RoomsTable";
 import AuthService from "../Services/auth.service";
 import {HubConnectionBuilder} from "@microsoft/signalr";
+import Button from '@mui/material/Button';
+import { withRouter } from '../Common/with-router';
+import Create from "../Components/Room/Create";
 
 const API_URL = "https://localhost:7016"
+
+
+
+
 
 const Rooms = (props) => {
 
@@ -20,7 +27,12 @@ const Rooms = (props) => {
 
     if(connection) {
         return (
-            <RoomsTable connection={connection}/>
+            <div>
+                <RoomsTable connection={connection}/>
+                <Create/>
+            </div>
+
+
         );
     }
 };

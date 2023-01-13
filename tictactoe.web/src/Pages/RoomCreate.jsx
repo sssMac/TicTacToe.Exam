@@ -69,6 +69,7 @@ class RoomCreate extends Component {
                 localStorage.getItem('username')
             ).then(
                 response => {
+                    this.props.router.navigate("/rooms");
                     window.location.reload();
                 },
                 error => {

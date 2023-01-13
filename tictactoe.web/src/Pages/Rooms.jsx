@@ -6,7 +6,6 @@ import {HubConnectionBuilder} from "@microsoft/signalr";
 const API_URL = "https://localhost:7016"
 
 const Rooms = (props) => {
-    console.log(localStorage.getItem('username'));
 
     const [connection, setConnection] = useState()
 

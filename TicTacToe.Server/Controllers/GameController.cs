@@ -45,9 +45,9 @@ namespace TicTacToe.Server.Controllers
         }
 
         [HttpPost("createroom")]
-        public async Task<IActionResult> CreateRoom(string hostName, int minRating)
+        public async Task<IActionResult> CreateRoom([FromForm]CreateRoom createRoom)
         {
-            var res = await _gameManager.AddRoom(hostName, minRating);
+            var res = await _gameManager.AddRoom(createRoom.HostName, createRoom.MinRating);
             return Ok(res);
         }
 

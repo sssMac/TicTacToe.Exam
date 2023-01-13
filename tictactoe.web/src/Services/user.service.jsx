@@ -1,15 +1,20 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = process.env.SERVER_API_URL;
+const API_URL = "https://localhost:7016"
 
 class UserService {
-    getPublicContent() {
-        return axios.get(API_URL + 'all');
+    getRooms() {
+        return axios.get(API_URL + '/api/Game/rooms');
     }
 
-    getUserBoard() {
-        return axios.get(API_URL + 'user', { headers: authHeader() });
+    createRoom(minRating,hostName) {
+        console.log(minRating,hostName)
+        const formData = new FormData();
+        minRating = parseInt(minRating)
+        formData.append("minRating", minRating);
+        formData.append("hostName", hostName);
+        return axios.post("https://localhost:7016/api/Game/createroom",formData);
     }
 
     getModeratorBoard() {

@@ -12,6 +12,7 @@ import Register from "./Pages/Register";
 
 import AuthService from "../src/Services/auth.service";
 import {HubConnectionBuilder} from "@microsoft/signalr";
+import RoomCreate from "./Pages/RoomCreate";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
                 <Route path="*" element={<Rooms />} />
                 <Route path="/game" element={<Game />} />
                 <Route path="/rooms" element={<Rooms />} />
+                <Route path="/roomCreate" element={<RoomCreate />} />
             </Routes>
         )
     }else{

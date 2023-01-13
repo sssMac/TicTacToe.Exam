@@ -30,6 +30,13 @@ namespace TicTacToe.Server.Controllers
             _rabbit = rabbit;
         }
 
+        [HttpGet("rating")]
+        public async Task<IActionResult> GetRating(string userName)
+        {
+            var res = (await _userManager.FindByNameAsync(userName)).Rating;
+            return Ok(res);
+        }
+
         [HttpGet("rooms")]
         public async Task<IActionResult> GetRooms()
         {

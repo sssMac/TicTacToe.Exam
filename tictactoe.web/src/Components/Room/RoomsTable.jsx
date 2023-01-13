@@ -10,6 +10,12 @@ import Room from "./Room";
 const RoomsTable = (props) => {
     const userName = localStorage.getItem('username');
 
+   useEffect(()=> {
+       props.connection.start().then(() => {
+           props.connection.invoke('OnlineStatus', userName).catch(err => console.error(err));
+       })
+   },[])
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">

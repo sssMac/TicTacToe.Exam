@@ -10,6 +10,7 @@ namespace TicTacToe.BLL.Interfaces
 {
     public interface IGameManager
     {
+        Task<List<Room>> GetRooms();
         Task<Room> AddRoom(string hostName, int mingRating);
         Task<bool> SetDraw(Guid roomId);
         Task SetWinner(string winnerName, Guid roomId);

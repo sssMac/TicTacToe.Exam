@@ -17,12 +17,13 @@ const Rooms = (props) => {
             .build();
 
         setConnection(connect);
-        console.log(connect)
     }, []);
 
-    return (
-        <RoomsTable />
-    );
+    if(connection) {
+        return (
+            <RoomsTable connection={connection}/>
+        );
+    }
 };
 
 export default Rooms;

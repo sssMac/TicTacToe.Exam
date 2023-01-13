@@ -30,6 +30,13 @@ namespace TicTacToe.Server.Controllers
             _rabbit = rabbit;
         }
 
+        [HttpGet("rooms")]
+        public async Task<IActionResult> GetRooms()
+        {
+            var res = await _gameManager.GetRooms();
+            return Ok(res);
+        }
+
         [HttpPost("createroom")]
         public async Task<IActionResult> CreateRoom(string hostName, int minRating)
         {

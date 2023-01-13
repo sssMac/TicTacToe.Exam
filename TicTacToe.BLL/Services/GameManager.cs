@@ -26,7 +26,10 @@ namespace TicTacToe.BLL.Services
             _onlineUsers = new List<OnlineUser>();
             _userManager = userManager;
         }
-
+        public async Task<List<Room>> GetRooms()
+        {
+            return (await _unitOfWork.RoomRepository.Get()).ToList();
+        }
         public async Task<Room> AddRoom(string hostName, int mingRating)
         {
             var room = (await _unitOfWork.RoomRepository.Get()).Where(r => r.HostName == hostName).FirstOrDefault();

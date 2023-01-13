@@ -1,6 +1,6 @@
 import React from 'react';
-import "../Styles/Game.css"
-import Board from "../Components/Board";
+import "../Styles/Game/Game.css"
+import Board from "../Components/Game/Board";
 
 const Game = () => {
     return (

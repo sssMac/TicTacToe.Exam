@@ -6,20 +6,14 @@ import Button from '@mui/material/Button';
 import { withRouter } from '../Common/with-router';
 import Create from "../Components/Room/Create";
 
-
-
-
-
-
 const Rooms = (props) => {
 
     if(props.connection) {
         return (
             <div>
-                <RoomsTable connection={connection}/>
+                <RoomsTable connection={props.connection}/>
                 <Create/>
             </div>
-
 
         );
     }

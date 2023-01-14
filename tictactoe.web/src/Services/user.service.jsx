@@ -40,6 +40,11 @@ class UserService {
         formData.append("roomId", roomId);
         return axios.post(API_URL + `/api/Game/setwinner`, formData);
     }
+
+    getRating(userName) {
+        return axios.get(API_URL + '/api/Game/rating' , {params: {userName : userName}});
+    }
+
 }
 
 export default new UserService();

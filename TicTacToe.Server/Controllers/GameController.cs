@@ -71,7 +71,7 @@ namespace TicTacToe.Server.Controllers
             await _gameManager.SetWinner(model.UserName, model.RoomId);
             await _hubContext.Clients.Group(model.GroupName).SendAsync("ReceiveStatus", model.UserName);
 
-            return Ok("Winner winner chiken diner");
+            return Ok($"{model.UserName} Winner winner chiken diner");
         }
 
         [HttpPost("setdraw")]
@@ -95,7 +95,7 @@ namespace TicTacToe.Server.Controllers
                 Text = postMessage.Message,
                 PublishDate = DateTimeOffset.Now.ToUnixTimeMilliseconds()
             };
-            await _rabbit.SendProductMessage(message);
+            //await _rabbit.SendProductMessage(message);
             await _hubContext.Clients.Group(postMessage.Host).SendAsync("ReceiveGroupMessage", message);
 
             return Ok("Message send!");

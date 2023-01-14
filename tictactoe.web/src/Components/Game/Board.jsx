@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import Square from "./Square";
 import UserService from "../../Services/user.service";
+import {useParams} from "react-router-dom";
 
 function calculateWinner(squares) {
     const winningPatterns = [
@@ -22,19 +23,39 @@ function calculateWinner(squares) {
     }
     return null;
 }
+function calculateDraw(squares) {
+    let strick = 0;
+    for (let i = 0; i < squares.length; i++) {
 
+        if (squares[i]) {
+
+        }
+    }
+}
 const Board = (props) => {
+    const { host } = useParams()
     const [squares, setSquares] = React.useState(Array(9).fill(null))
     const [isX, setIsX] = React.useState(true);
+    const latestBoard = useRef(null);
+    latestBoard.current = squares;
+    useEffect(() => {
+        if (props.connection) {
+            props.connection.on("ReceiveMove", (res) => {
+                console.log(res)
+                const updatedBoard = [...latestBoard.current];
+                updatedBoard[res.square] = res.symbol;
+                setSquares(updatedBoard);
+            });
+        }
+    }, [props.connection]);
 
     const handleClick = (i) => {
         if (calculateWinner(squares) || squares[i]) {
             return
         }
-
         squares[i] = isX ? 'X' : 'O'
+        props.connection.invoke('MakeMove', i, squares[i] , host).catch(err => console.error(err));
         setSquares(squares)
-        console.log(squares)
         setIsX(!isX)
     }
 
@@ -45,6 +66,7 @@ const Board = (props) => {
     if (winner) {
         status = `Winner: ${winner}`;
         UserService.setWinner(localStorage.getItem('username'), props.host, props.roomId)
+            .then(res => props.connection.invoke('SendMessage', res.data, host).catch(err => console.error(err)))
     }
     else {
         status = 'Next player: ' + (isX ? 'X' : 'O');

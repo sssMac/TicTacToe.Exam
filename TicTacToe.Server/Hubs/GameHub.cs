@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using TicTacToe.BLL.Interfaces;
 using TicTacToe.DAL.Intefaces;
+using TicTacToe.DAL.Models.Entities;
+using TicTacToe.DAL.Models.View;
 
 namespace TicTacToe.Server.Hubs
 {
@@ -21,6 +23,7 @@ namespace TicTacToe.Server.Hubs
 
             foreach (var group in groups)
             {
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, group.Group);
                 await _gameManager.RemoveFromGroup(user.UserName, group.Group);
             }
         }
@@ -29,6 +32,7 @@ namespace TicTacToe.Server.Hubs
             var user = (await _gameManager.GetOnlineUsers()).FirstOrDefault(u => u.ConnectionId == Context.ConnectionId);
             var group = (await _gameManager.GetGroups(Context.ConnectionId)).FirstOrDefault(g => g.Id == roomId);
 
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, group.Group);
             await _gameManager.RemoveFromGroup(user.UserName, group.Group);
 
         }
@@ -37,6 +41,36 @@ namespace TicTacToe.Server.Hubs
         {
             await _gameManager.AddOnlineUser(userName, Context.ConnectionId);
 
+        }
+
+        public async Task JoinGroup(string userName, string host)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, host);
+            await _gameManager.AddToGroup(userName, host);
+        }
+
+        public async Task MakeMove(int square, string symbol, string groupName)
+        {
+            var res = new MoveResponse
+            {
+                Square = square,
+                Symbol = symbol
+            };
+            await Clients.Group(groupName).SendAsync("ReceiveMove", res);
+
+        }
+
+        public async Task SendMessage(string message, string host)
+        {
+            var mess = new Message
+            {
+                MessageId = Guid.NewGuid(),
+                From = "SERVER",
+                To = "koyash",
+                Text = message,
+                PublishDate = DateTimeOffset.Now.ToUnixTimeMilliseconds()
+            };
+            await Clients.Group(host).SendAsync("ReceiveGroupMessage", mess);
         }
     }
 }

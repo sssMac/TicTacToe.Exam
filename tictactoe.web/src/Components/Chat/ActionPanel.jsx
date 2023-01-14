@@ -14,7 +14,7 @@ const ActionPanel = () => {
     };
     return (
         <div className="message_input">
-            <input className="chat_input" placeholder="Enter message"/>
+            <input className="chat_input" placeholder="Enter message" value={inputText} onChange={e => setInputText(e.target.value)}/>
             <div className="send_button" onClick={sendMessage}><i className="fa-regular fa-paper-plane"></i></div>
         </div>
     );

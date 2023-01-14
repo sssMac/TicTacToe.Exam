@@ -10,6 +10,7 @@ const Chat = (props) => {
     useEffect(() => {
         if (props.connection) {
             props.connection.on("ReceiveGroupMessage", (message) => {
+                console.log(message)
                 const updatedChat = [...latestChat.current];
                 updatedChat.push(message);
                 setChatHistory(updatedChat);

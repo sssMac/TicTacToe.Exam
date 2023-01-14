@@ -38,7 +38,7 @@ class UserService {
         formData.append("userName", userName);
         formData.append("groupName", groupName);
         formData.append("roomId", roomId);
-        return axios.post(API_URL + `/api/Game/postmessage`, formData);
+        return axios.post(API_URL + `/api/Game/setwinner`, formData);
     }
 }
 

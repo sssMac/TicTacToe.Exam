@@ -71,6 +71,11 @@ namespace TicTacToe.BLL.Services
         }
         public async Task<bool> AddToGroup(string userName, string groupName)
         {
+            if(!_groups.Where(g=> g.Group == groupName && g.UserName == userName).Any())
+            {
+                return true;
+            }
+
             var group = _groups.Where(g => g.Group == groupName);
             var gameGroup = new GameGroup
             {
@@ -90,10 +95,11 @@ namespace TicTacToe.BLL.Services
         {
             var winner = await _userManager.FindByNameAsync(winnerName);
 
-            var loser = await _userManager.FindByNameAsync(
-                _groups.FirstOrDefault(g => g.Id == roomId &&
-                g.PlayerStatus == Consts.UserStatus.Player &&
-                g.UserName != winnerName)?.UserName);
+            //var loser = await _userManager.FindByNameAsync(
+            //    _groups.FirstOrDefault(g => g.Id == roomId &&
+            //    g.PlayerStatus == Consts.UserStatus.Player &&
+            //    g.UserName != winnerName)?.UserName);
+            var loser = winner;
 
             winner.Rating += 3;
             loser.Rating -= 1;

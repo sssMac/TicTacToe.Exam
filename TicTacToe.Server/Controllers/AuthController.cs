@@ -31,7 +31,7 @@ namespace TicTacToe.Server.Controllers
             }
 
             var result = await _userManager.CreateAsync(
-                new User() { UserName = user.UserName},
+                new User() { UserName = user.UserName, Email = user.UserName + "@mail.ru"},
                 user.Password
             );
 

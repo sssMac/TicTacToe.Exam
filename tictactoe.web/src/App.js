@@ -3,7 +3,7 @@ import RenderRoomsList from "./Pages/Rooms";
 import Rooms from "./Pages/Rooms";
 import BasicTable from "./Pages/Rooms";
 
-import { Routes, Route, Link } from "react-router-dom";
+import {Routes, Route, Link, Navigate} from "react-router-dom";
 import React, {Component, useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 

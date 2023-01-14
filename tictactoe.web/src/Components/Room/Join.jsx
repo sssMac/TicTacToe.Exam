@@ -8,8 +8,9 @@ class Join extends Component {
     }
 
     handleJoin(){
-        console.log(this.props.id)
-        this.props.router.navigate("/game/"+String(this.props.id));
+        console.log(this.props.room.id)
+        console.log(this.props.room)
+        this.props.router.navigate("/game/"+ String(this.props.room.id) + "/"+ String(this.props.room.hostName));
     }
 
     render() {

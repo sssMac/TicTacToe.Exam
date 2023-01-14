@@ -22,7 +22,7 @@ const Room = (props) => {
                     <TableCell align="left">{room.minRating}</TableCell>
                     <TableCell align="right">
                         <div className="wrap">
-                            <Join id={room.id}/>
+                            <Join room={room}/>
                             {/*<button className="button" onClick={e => goToGame(room.id)}>Join</button>*/}
                         </div>
                     </TableCell>

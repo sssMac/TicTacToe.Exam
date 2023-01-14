@@ -27,8 +27,8 @@ class UserService {
 
     postMessage(userName,text,host){
         const formData = new FormData();
-        formData.append("userName", userName);
-        formData.append("text", text);
+        formData.append("from", userName);
+        formData.append("message", text);
         formData.append("host", host);
         return axios.post(API_URL + `/api/Game/postmessage`, formData);
     }

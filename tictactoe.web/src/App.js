@@ -31,7 +31,7 @@ function App() {
             <Routes>
                 <Route index path="/" element={<Rooms connection={connection}/>} />
                 <Route path="*" element={<Rooms connection={connection}/>} />
-                <Route path="/game" element={<Game connection={connection}/>} />
+                <Route path="/game/:id/:host" element={<Game connection={connection}/>} />
                 <Route path="/rooms" element={<Rooms connection={connection}/>} />
                 <Route path="/roomCreate" element={<RoomCreate connection={connection}/>} />
             </Routes>

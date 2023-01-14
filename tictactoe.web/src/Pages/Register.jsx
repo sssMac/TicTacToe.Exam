@@ -100,7 +100,7 @@ class Register extends Component {
                     this.state.password
                 ).then(
                     response => {
-                        this.state.accesconfirm = "Registration is successed"
+                        this.props.router.navigate("/login");
                         window.location.reload();
                     },
                     error => {

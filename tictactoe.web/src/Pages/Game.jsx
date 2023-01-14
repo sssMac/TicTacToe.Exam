@@ -4,7 +4,6 @@ import Board from "../Components/Game/Board";
 import Chat from "../Components/Chat/Chat";
 import Back from "../Components/Game/Back"
 import {useParams} from "react-router-dom";
-import Stack from '@mui/material/Stack';
 
 const Game = (props) => {
     const { id, host } = useParams()
@@ -14,11 +13,16 @@ const Game = (props) => {
 
     }, []);
     return (
-        <Stack spacing={2} direction="row" className="game">
-            <Board connection={props.connection} host={host} roomId={id}/>
-            <Chat connection={props.connection}/>
-            <Back/>
-        </Stack>
+        <div className="game">
+            <div className="main">
+                <Board connection={props.connection} host={host} roomId={id}/>
+                <Chat connection={props.connection}/>
+            </div>
+            <div className="back">
+                <Back/>
+            </div>
+
+        </div>
     );
 };
 

@@ -11,6 +11,7 @@ builder.Services.CorsRegister();
 
 var app = builder.Build();
 
+app.MigrateDatabase(); 
 app.SwaggereConfigure();
 app.UseHttpsRedirection();
 app.UseAuthentication();

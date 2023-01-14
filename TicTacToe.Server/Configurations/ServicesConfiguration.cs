@@ -1,6 +1,8 @@
-﻿using TicTacToe.BLL.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TicTacToe.BLL.Interfaces;
 using TicTacToe.BLL.Services;
 using TicTacToe.DAL;
+using TicTacToe.DAL.Contexts;
 using TicTacToe.DAL.Intefaces;
 using TicTacToe.Server.RabbitMQ;
 
@@ -22,7 +24,25 @@ namespace TicTacToe.Server.Configurations
 
             return services;
         }
-
+        public static WebApplication MigrateDatabase(this WebApplication webApp)
+        {
+            using (var scope = webApp.Services.CreateScope())
+            {
+                using (var appContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>())
+                {
+                    try
+                    {
+                        appContext.Database.Migrate();
+                    }
+                    catch (Exception ex)
+                    {
+                        //Log errors or do anything you think it's needed
+                        throw;
+                    }
+                }
+            }
+            return webApp;
+        }
 
     }
 }

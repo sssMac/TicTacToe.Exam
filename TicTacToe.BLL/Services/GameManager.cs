@@ -33,7 +33,7 @@ namespace TicTacToe.BLL.Services
         public async Task<Room> AddRoom(string hostName, int mingRating)
         {
             var room = (await _unitOfWork.RoomRepository.Get()).Where(r => r.HostName == hostName).FirstOrDefault();
-            if (room == null)
+            if (room == null || room.Status == Consts.RoomStatus.Completed)
             {
                 var newRoom = new Room
                 {
@@ -96,16 +96,15 @@ namespace TicTacToe.BLL.Services
         {
             var winner = await _userManager.FindByNameAsync(winnerName);
 
-            //var loser = await _userManager.FindByNameAsync(
-            //    _groups.FirstOrDefault(g => g.Id == roomId &&
-            //    g.PlayerStatus == Consts.UserStatus.Player &&
-            //    g.UserName != winnerName)?.UserName);
-
-            var loser = _groups.Select(g => g.Id == roomId &&
-                       g.PlayerStatus == Consts.UserStatus.Player);
+            var loser = await _userManager.FindByNameAsync("koyash");
 
             winner.Rating += 3;
-            //loser.Rating -= 1;
+
+            if(loser!= null)
+            {
+                loser.Rating -= 1;
+
+            }
 
             var room = await _unitOfWork.RoomRepository.GetByID(roomId);
             room.Status = Consts.RoomStatus.Completed;

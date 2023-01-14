@@ -61,3 +61,14 @@ button:hover {
     justify-content: space-between;
     align-items: center;
 }
+
+.main{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 700px;
+}
+.back{
+    margin: 80px;
+}

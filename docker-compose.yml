@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: TicTacToe.Server/Dockerfile
     ports:
-      - "5225:80"
+      - "7016:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgre;Port=5432;Database=TicTacToe.Exam.DB;Username=postgres;Password=russiamedved
@@ -25,9 +25,6 @@ services:
       POSTGRES_DB: "TicTacToe.Exam.DB"
     ports:
       - '7000:5432'
-    volumes: 
-      - postgre:/var/lib/postgresql/data
-      - ./postgre/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
   tictactoe.ui:
     build: 
@@ -68,7 +65,3 @@ services:
     restart: always
     depends_on:
       - rabbitmq
-
-volumes:
-  postgre:
-    driver: local

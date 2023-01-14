@@ -1,7 +1,7 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = "https://localhost:7016"
+const API_URL = "http://localhost:7016"
 
 class UserService {
     getRooms() {
@@ -14,7 +14,7 @@ class UserService {
         minRating = parseInt(minRating)
         formData.append("minRating", minRating);
         formData.append("hostName", hostName);
-        return axios.post("https://localhost:7016/api/Game/createroom",formData);
+        return axios.post(API_URL+ "/api/Game/createroom",formData);
     }
 
     getModeratorBoard() {

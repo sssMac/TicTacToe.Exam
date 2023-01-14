@@ -16,7 +16,7 @@ const Room = (props) => {
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                     <TableCell  scope="row">
-                        {index}
+                        {index + 1}
                     </TableCell>
                     <TableCell align="left">{room.hostName}</TableCell>
                     <TableCell align="left">{room.minRating}</TableCell>

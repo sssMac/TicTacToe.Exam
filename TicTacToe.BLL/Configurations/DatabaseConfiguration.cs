@@ -15,5 +15,7 @@ namespace TicTacToe.BLL.Configurations
 
             return services;
         }
+
+
     }
 }

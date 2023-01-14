@@ -19,7 +19,7 @@ function App() {
 
     useEffect(() => {
         const connect = new HubConnectionBuilder()
-            .withUrl(  "https://localhost:7016/hub")
+            .withUrl(  "http://localhost:7016/hub")
             .withAutomaticReconnect()
             .build();
 

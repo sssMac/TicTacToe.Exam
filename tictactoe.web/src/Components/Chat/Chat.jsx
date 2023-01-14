@@ -3,7 +3,12 @@ import Message from "./Message";
 import ActionPanel from "./ActionPanel";
 import "../../Styles/Chat/Chat.css"
 const Chat = (props) => {
-    const [chatHistory, setChatHistory] = useState([])
+    const [chatHistory, setChatHistory] = useState([{
+        messageId: "000000-0000-0000-0000-000000001",
+        from: "SERVER",
+        to: "koyash",
+        text: "Правила: 1) первый ходит хост, он же крестик 2) не обновлять страницу 3) вы ноль",
+        publishDate: 1673675682764}])
     const latestChat = useRef(null);
     latestChat.current = chatHistory;
 

@@ -33,9 +33,15 @@ class Join extends Component {
     }
 
     render() {
+        if (this.props.room.status=="OPEN")
         return(
-            <Button variant="contained" onClick={e => this.handleJoin()}>Join</Button>
+            <Button variant="contained" onClick={e => this.handleJoin()} >Join</Button>
         )
+        else{
+            return(
+                <Button variant="contained" onClick={e => this.handleJoin()} disabled>COMPLETED</Button>
+            )
+        }
 
     }
 }

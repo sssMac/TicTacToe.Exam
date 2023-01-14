@@ -16,7 +16,10 @@ namespace TicTacToe.Backround.Consumers
         private IConnection _connection;
         private IModel _channel;
         private string? _queueName;
-        public RabbitConsumer(IConfiguration config)
+        private readonly IServiceScopeFactory _serviceScopeFactory;
+        public RabbitConsumer(IConfiguration config,
+            IServiceProvider serviceProvider,
+            IServiceScopeFactory serviceScopeFactory)
         {
 
             _config = config;
@@ -38,10 +41,12 @@ namespace TicTacToe.Backround.Consumers
             _channel.QueueBind(queue: _queueName,
                                       exchange: "exam.fanout",
                                       routingKey: string.Empty);
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            
             Console.WriteLine("==== Consumer start ====");
             if (stoppingToken.IsCancellationRequested)
             {
@@ -58,10 +63,22 @@ namespace TicTacToe.Backround.Consumers
                 var message = Encoding.UTF8.GetString(body);
                 var mesageData = JsonConvert.DeserializeObject<Message>(message);
                 Console.WriteLine(" [x] Received {0}", message);
-                
+                Task.Run(async () =>
+                {
+                    using (var scope = _serviceScopeFactory.CreateScope())
+                    {
+                        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+                        var uof = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                        var _messageMnaager = scope.ServiceProvider.GetRequiredService<IMessageManager>();
+
+                        await _messageMnaager.PostMessage(mesageData);
+
+                    }
+                });
             };
 
             _channel.BasicConsume(queue: "exam", autoAck: true, consumer: consumer);
+            
 
             return Task.CompletedTask;
         }

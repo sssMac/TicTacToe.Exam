@@ -89,6 +89,7 @@ namespace TicTacToe.Server.Controllers
                 PublishDate = DateTimeOffset.Now.ToUnixTimeMilliseconds()
             };
 
+            await _rabbit.SendProductMessage(message);
             await _hubContext.Clients.Group(model.GroupName).SendAsync("ReceiveGroupMessage", message);
 
             return Ok(message);
@@ -115,7 +116,7 @@ namespace TicTacToe.Server.Controllers
                 Text = postMessage.Message,
                 PublishDate = DateTimeOffset.Now.ToUnixTimeMilliseconds()
             };
-            //await _rabbit.SendProductMessage(message);
+            await _rabbit.SendProductMessage(message);
             await _hubContext.Clients.Group(postMessage.Host).SendAsync("ReceiveGroupMessage", message);
 
             return Ok("Message send!");

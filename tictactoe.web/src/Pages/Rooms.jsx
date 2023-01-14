@@ -1,14 +1,26 @@
-import React, {useEffect, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import RoomsTable from "../Components/Room/RoomsTable";
 import AuthService from "../Services/auth.service";
 import {HubConnectionBuilder} from "@microsoft/signalr";
+import Button from '@mui/material/Button';
+import { withRouter } from '../Common/with-router';
+import Create from "../Components/Room/Create";
+
+
+
+
 
 
 const Rooms = (props) => {
 
     if(props.connection) {
         return (
-            <RoomsTable connection={props.connection}/>
+            <div>
+                <RoomsTable connection={connection}/>
+                <Create/>
+            </div>
+
+
         );
     }
 };

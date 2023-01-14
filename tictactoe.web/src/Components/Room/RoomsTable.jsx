@@ -27,7 +27,9 @@ const RoomsTable = (props) => {
     useEffect(()=> {
         UserService.getRooms().then(r => {
             setRooms(r.data)
+            console.log(r.data)
         })
+
     },[])
 
 

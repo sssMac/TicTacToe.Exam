@@ -7,12 +7,8 @@ using TicTacToe.DAL.Intefaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.DataBaseRegister(builder.Configuration);
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IMessageManager, ChatManager>();
 
 builder.Services.AddHostedService<RabbitConsumer>();
-
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();

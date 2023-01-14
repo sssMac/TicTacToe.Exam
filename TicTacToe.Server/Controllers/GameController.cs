@@ -54,6 +54,7 @@ namespace TicTacToe.Server.Controllers
         [HttpPost("makemove")]
         public async Task<IActionResult> MakeMove([FromForm] MoveRequest model)
         {
+            
             var res = new MoveResponse
             {
                 Square = model.Square,
@@ -64,14 +65,33 @@ namespace TicTacToe.Server.Controllers
             return Ok(res);
         }
 
+        [HttpGet("getstatus")]
+        public async Task<IActionResult> GetStatus(string groupName, string player)
+        {
+            var group = await _gameManager.GetGroups(player);
+
+            return Ok(group);
+        }
+
         [HttpPost("setwinner")]
         public async Task<IActionResult> SetWinner([FromForm]SetWinner model)
         {
-
+            
             await _gameManager.SetWinner(model.UserName, model.RoomId);
             await _hubContext.Clients.Group(model.GroupName).SendAsync("ReceiveStatus", model.UserName);
 
-            return Ok($"{model.UserName} Winner winner chiken diner");
+            var message = new Message
+            {
+                MessageId = Guid.NewGuid(),
+                From = "SERVER",
+                To = "koyash",
+                Text = $"{model.UserName} Winner winner chiken diner",
+                PublishDate = DateTimeOffset.Now.ToUnixTimeMilliseconds()
+            };
+
+            await _hubContext.Clients.Group(model.GroupName).SendAsync("ReceiveGroupMessage", message);
+
+            return Ok(message);
         }
 
         [HttpPost("setdraw")]
@@ -81,7 +101,7 @@ namespace TicTacToe.Server.Controllers
 
             await _hubContext.Clients.Group(model.GroupName).SendAsync("ReceiveStatus", model.RoomId);
 
-            return Ok(res);
+            return Ok("Game ended in a draw");
         }
 
         [HttpPost("postmessage")]

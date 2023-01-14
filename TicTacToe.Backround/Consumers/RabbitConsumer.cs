@@ -3,6 +3,8 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using TicTacToe.BLL.Interfaces;
+using TicTacToe.DAL.Contexts;
+using TicTacToe.DAL.Intefaces;
 using TicTacToe.DAL.Models.Entities;
 
 namespace TicTacToe.Backround.Consumers
@@ -14,10 +16,9 @@ namespace TicTacToe.Backround.Consumers
         private IConnection _connection;
         private IModel _channel;
         private string? _queueName;
-        private IMessageManager _messageMnaager;
-        public RabbitConsumer(IConfiguration config, 
-            IMessageManager messageMnaager)
+        public RabbitConsumer(IConfiguration config)
         {
+
             _config = config;
             _factory = new ConnectionFactory()
             {
@@ -37,7 +38,6 @@ namespace TicTacToe.Backround.Consumers
             _channel.QueueBind(queue: _queueName,
                                       exchange: "exam.fanout",
                                       routingKey: string.Empty);
-            _messageMnaager = messageMnaager;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -51,17 +51,14 @@ namespace TicTacToe.Backround.Consumers
             }
 
             var consumer = new EventingBasicConsumer(_channel);
-           
+
             consumer.Received += (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
                 var mesageData = JsonConvert.DeserializeObject<Message>(message);
                 Console.WriteLine(" [x] Received {0}", message);
-                Task.Run(async () =>
-                {
-                    await _messageMnaager.PostMessage(mesageData);
-                });
+                
             };
 
             _channel.BasicConsume(queue: "exam", autoAck: true, consumer: consumer);

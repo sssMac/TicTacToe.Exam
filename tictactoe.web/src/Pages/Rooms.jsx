@@ -6,15 +6,25 @@ import Button from '@mui/material/Button';
 import { withRouter } from '../Common/with-router';
 import Create from "../Components/Room/Create";
 import Logout from "../Components/Room/Logout";
+import UserService from "../Services/user.service";
+import "../Styles/Room/Rooms.css"
 
 const Rooms = (props) => {
 
+    const [rating, setRating] = useState(0)
+    UserService.getRating(localStorage.getItem('username'))
+        .then(res => setRating(res.data))
+        .catch(err => console.error(err))
     if(props.connection) {
         return (
             <div>
-                <Logout/>
+                <Logout className="action"/>
+                <div className="scores">
+                    Your rating: {rating}
+                </div>
                 <RoomsTable connection={props.connection}/>
-                <Create/>
+
+                <Create className="action"/>
             </div>
 
         );

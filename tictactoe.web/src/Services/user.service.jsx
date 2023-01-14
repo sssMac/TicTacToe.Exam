@@ -41,6 +41,17 @@ class UserService {
         return axios.post(API_URL + `/api/Game/setwinner`, formData);
     }
 
+    setDraw(roomId,groupName){
+        const formData = new FormData();
+        formData.append("groupName", groupName);
+        formData.append("roomId", roomId);
+        return axios.post(API_URL + `/api/Game/setdraw`, formData);
+    }
+
+    getStatus(host, player) {
+        return axios.get(API_URL + '/api/Game/getstatus' , {params: {groupName : host, player: player}});
+    }
+
     getRating(userName) {
         return axios.get(API_URL + '/api/Game/rating' , {params: {userName : userName}});
     }

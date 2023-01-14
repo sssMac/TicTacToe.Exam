@@ -47,10 +47,12 @@ namespace TicTacToe.Server.Hubs
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, host);
             await _gameManager.AddToGroup(userName, host);
+
         }
 
         public async Task MakeMove(int square, string symbol, string groupName)
         {
+            
             var res = new MoveResponse
             {
                 Square = square,
@@ -58,6 +60,12 @@ namespace TicTacToe.Server.Hubs
             };
             await Clients.Group(groupName).SendAsync("ReceiveMove", res);
 
+        }
+
+        public async Task GetStatus(string groupName, string player)
+        {
+            var group = (await _gameManager.GetGroups(player)).First(g => g.Group == groupName);
+            await Clients.Caller.SendAsync("ReceivePlayerStatus", group.PlayerStatus);
         }
 
         public async Task SendMessage(string message, string host)

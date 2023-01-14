@@ -11,5 +11,6 @@ namespace TicTacToe.DAL.Models.View
         public int Square {get;set;}
         public string Symbol {get;set;}
         public string GroupName { get; set; }
+        public string Player { get; set; }
     }
 }

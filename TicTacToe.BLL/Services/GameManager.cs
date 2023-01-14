@@ -73,7 +73,7 @@ namespace TicTacToe.BLL.Services
         {
             if(!_groups.Where(g=> g.Group == groupName && g.UserName == userName).Any())
             {
-                return true;
+                return false;
             }
 
             var group = _groups.Where(g => g.Group == groupName);
@@ -87,7 +87,8 @@ namespace TicTacToe.BLL.Services
             gameGroup.PlayerStatus = group.Where(g => g.PlayerStatus == Consts.UserStatus.Player).Count() == 2 ?
                 Consts.UserStatus.Spectator : 
                 Consts.UserStatus.Player;
-            
+
+            _groups.Add(gameGroup);
 
             return true;
         }
@@ -99,10 +100,12 @@ namespace TicTacToe.BLL.Services
             //    _groups.FirstOrDefault(g => g.Id == roomId &&
             //    g.PlayerStatus == Consts.UserStatus.Player &&
             //    g.UserName != winnerName)?.UserName);
-            var loser = winner;
+
+            var loser = _groups.Select(g => g.Id == roomId &&
+                       g.PlayerStatus == Consts.UserStatus.Player);
 
             winner.Rating += 3;
-            loser.Rating -= 1;
+            //loser.Rating -= 1;
 
             var room = await _unitOfWork.RoomRepository.GetByID(roomId);
             room.Status = Consts.RoomStatus.Completed;

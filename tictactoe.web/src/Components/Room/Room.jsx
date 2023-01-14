@@ -9,10 +9,10 @@ import "../../Styles/Room/RoomsTable.css"
 
 const Room = (props) => {
     return (
-        <TableBody>
+        <TableBody >
             {props.rooms.map((room,index) => (
                 <TableRow
-                    key={room.id}
+                    key={room.createDate}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                     <TableCell  scope="row">
@@ -23,7 +23,6 @@ const Room = (props) => {
                     <TableCell align="right">
                         <div className="wrap">
                             <Join room={room}/>
-                            {/*<button className="button" onClick={e => goToGame(room.id)}>Join</button>*/}
                         </div>
                     </TableCell>
                 </TableRow>

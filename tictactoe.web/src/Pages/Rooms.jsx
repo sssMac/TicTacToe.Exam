@@ -11,7 +11,7 @@ const Rooms = (props) => {
 
     if(props.connection) {
         return (
-            <div>
+            <div >
                 <Logout/>
                 <RoomsTable connection={props.connection}/>
                 <Create/>

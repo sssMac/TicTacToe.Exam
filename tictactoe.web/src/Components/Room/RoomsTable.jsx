@@ -10,6 +10,7 @@ import axios from "axios";
 import Rooms from "../../Pages/Rooms";
 
 import UserService from "../../Services/user.service";
+import "../../Styles/Room/RoomsTable.css"
 
 const RoomsTable = (props) => {
     const userName = localStorage.getItem('username');
@@ -35,7 +36,7 @@ const RoomsTable = (props) => {
 
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} className="scroller">
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>

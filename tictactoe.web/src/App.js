@@ -15,15 +15,25 @@ import {HubConnectionBuilder} from "@microsoft/signalr";
 import RoomCreate from "./Pages/RoomCreate";
 
 function App() {
+    const [connection, setConnection] = useState()
+
+    useEffect(() => {
+        const connect = new HubConnectionBuilder()
+            .withUrl(  "https://localhost:7016/hub")
+            .withAutomaticReconnect()
+            .build();
+
+        setConnection(connect);
+    }, []);
 
     if (AuthService.getCurrentUser()){
         return (
             <Routes>
-                <Route index path="/" element={<Rooms />} />
-                <Route path="*" element={<Rooms />} />
-                <Route path="/game" element={<Game />} />
-                <Route path="/rooms" element={<Rooms />} />
-                <Route path="/roomCreate" element={<RoomCreate />} />
+                <Route index path="/" element={<Rooms connection={connection}/>} />
+                <Route path="*" element={<Rooms connection={connection}/>} />
+                <Route path="/game" element={<Game connection={connection}/>} />
+                <Route path="/rooms" element={<Rooms connection={connection}/>} />
+                <Route path="/roomCreate" element={<RoomCreate connection={connection}/>} />
             </Routes>
         )
     }else{

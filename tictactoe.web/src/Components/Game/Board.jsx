@@ -1,5 +1,6 @@
 import React from 'react';
 import Square from "./Square";
+import UserService from "../../Services/user.service";
 
 function calculateWinner(squares) {
     const winningPatterns = [
@@ -22,7 +23,7 @@ function calculateWinner(squares) {
     return null;
 }
 
-const Board = () => {
+const Board = (props) => {
     const [squares, setSquares] = React.useState(Array(9).fill(null))
     const [isX, setIsX] = React.useState(true);
 
@@ -40,9 +41,12 @@ const Board = () => {
     const winner = calculateWinner(squares)
     let status
 
+
     if (winner) {
         status = `Winner: ${winner}`;
-    } else {
+        UserService.setWinner(localStorage.getItem('username'), props.host, props.roomId)
+    }
+    else {
         status = 'Next player: ' + (isX ? 'X' : 'O');
     }
 

@@ -52,40 +52,40 @@ namespace TicTacToe.Server.Controllers
         }
 
         [HttpPost("makemove")]
-        public async Task<IActionResult> MakeMove(int square, string symbol,string groupName)
+        public async Task<IActionResult> MakeMove([FromForm] MoveRequest model)
         {
             var res = new MoveResponse
             {
-                Square = square,
-                Symbol = symbol
+                Square = model.Square,
+                Symbol = model.Symbol
             };
-            await _hubContext.Clients.Group(groupName).SendAsync("ReceiveMove", res);
+            await _hubContext.Clients.Group(model.GroupName).SendAsync("ReceiveMove", res);
 
             return Ok(res);
         }
 
         [HttpPost("setwinner")]
-        public async Task<IActionResult> SetWinner(string userName, string groupName, Guid roomId)
+        public async Task<IActionResult> SetWinner([FromForm]SetWinner model)
         {
 
-            await _gameManager.SetWinner(userName, roomId);
-            await _hubContext.Clients.Group(groupName).SendAsync("ReceiveStatus", userName);
+            await _gameManager.SetWinner(model.UserName, model.RoomId);
+            await _hubContext.Clients.Group(model.GroupName).SendAsync("ReceiveStatus", model.UserName);
 
             return Ok("Winner winner chiken diner");
         }
 
         [HttpPost("setdraw")]
-        public async Task<IActionResult> SetDraw(Guid roomId, string groupName)
+        public async Task<IActionResult> SetDraw([FromForm] SetDraw model)
         {
-            var res = await _gameManager.SetDraw(roomId);
+            var res = await _gameManager.SetDraw(model.RoomId);
 
-            await _hubContext.Clients.Group(groupName).SendAsync("ReceiveStatus", roomId);
+            await _hubContext.Clients.Group(model.GroupName).SendAsync("ReceiveStatus", model.RoomId);
 
             return Ok(res);
         }
 
         [HttpPost("postmessage")]
-        public async Task<IActionResult> PostMessage([FromForm] PostMessage postMessage, string host)
+        public async Task<IActionResult> PostMessage([FromForm] PostMessage postMessage)
         {
             var message = new Message
             {
@@ -96,7 +96,7 @@ namespace TicTacToe.Server.Controllers
                 PublishDate = DateTimeOffset.Now.ToUnixTimeMilliseconds()
             };
             await _rabbit.SendProductMessage(message);
-            await _hubContext.Clients.Group(host).SendAsync("ReceiveGroupMessage", message);
+            await _hubContext.Clients.Group(postMessage.Host).SendAsync("ReceiveGroupMessage", message);
 
             return Ok("Message send!");
         }

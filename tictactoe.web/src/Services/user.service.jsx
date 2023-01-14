@@ -24,6 +24,22 @@ class UserService {
     getAdminBoard() {
         return axios.get(API_URL + 'admin', { headers: authHeader() });
     }
+
+    postMessage(userName,text,host){
+        const formData = new FormData();
+        formData.append("userName", userName);
+        formData.append("text", text);
+        formData.append("host", host);
+        return axios.post(API_URL + `/api/Game/postmessage`, formData);
+    }
+
+    setWinner(userName, groupName, roomId){
+        const formData = new FormData();
+        formData.append("userName", userName);
+        formData.append("groupName", groupName);
+        formData.append("roomId", roomId);
+        return axios.post(API_URL + `/api/Game/postmessage`, formData);
+    }
 }
 
 export default new UserService();

@@ -1,8 +1,6 @@
 body {
     font: 20px "Century Gothic", Futura, sans-serif;
-    margin: 20px;
     display: flex;
-    height: 80vh;
     justify-content: center;
     align-items: center;
 }
@@ -53,4 +51,13 @@ button:hover {
 
 .restart:focus {
     box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 50%);
+}
+
+.game {
+    min-width: 800px;
+    display: flex;
+    margin-left: 500px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }

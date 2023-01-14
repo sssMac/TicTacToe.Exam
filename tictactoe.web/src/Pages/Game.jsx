@@ -1,10 +1,14 @@
 import React from 'react';
 import "../Styles/Game/Game.css"
 import Board from "../Components/Game/Board";
+import Chat from "../Components/Chat/Chat";
 
-const Game = () => {
+const Game = (props) => {
     return (
-        <Board/>
+        <div className="game">
+            <Board connection={props.connection}/>
+            <Chat connection={props.connection}/>
+        </div>
     );
 };
 

@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace TicTacToe.DAL.Models.View
 {
-    public class PostMessage
+    public class SetDraw
     {
-        public string From { get; set; }
-        public string Message { get; set; }
-        public string Host { get; set; }
-
+        public Guid RoomId {get;set;}
+        public string GroupName { get; set; }
     }
 }
